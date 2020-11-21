@@ -1,89 +1,52 @@
-# exceptions
-class NotTitle(Exception):
-    pass
-
-
-class NotDescription(Exception):
-    pass
-
-
-class NotDueDate(Exception):
-    pass
-
-
-class NotPriority(Exception):
-    pass
-
-
-def catch_exceptions(function):
-    def wrapper(*args):
-        try:
-            function(*args)
-        except NotTitle:
-            print("Title should be str.")
-        except NotDescription:
-            print("Description should be str.")
-        except NotDueDate:
-            print("Due Date should be Date.")
-        except NotPriority:
-            print("Priority should be str.")
-    return wrapper
-
-# Blueprint for Task objects
-
-
-class Task:
-    # constructor
-    def __init__(self, title, description, dueDate, priority):
-        # private variables
-        self.set_title(title)
-        self.set_description(description)
-        self.set_dueDate(dueDate)
-        self.set_priority(priority)
-
-    # getters
-    def get_title(self):
-        return self._title
-
-    def get_description(self):
-        return self._description
-
-    def get_dueDate(self):
-        return self._dueDate
-
-    def get_priority(self):
-        return self._priority
-
-    # setters
-    def set_title(self, title):
-        # if not isinstance(title, str):
-        #     print("Throwing NotTitle")
-        #     raise NotTitle
-        self._title = title
-
-    def set_description(self, description):
-        self._description = description
-
-    def set_dueDate(self, dueDate):
-        self._dueDate = dueDate
-
-    def set_priority(self, priority):
-        self._priority = priority
-
-    # methods
-    def __str__(self):
-        strTask = f"Task: {self.get_title()}"
-        strDescription = f"Description: {self.get_description()}"
-        strDueDate = f"Due Date: {self.get_dueDate()}"
-        strPriority = f"Priority Level: {self.get_priority()}"
-
-        return strTask + "\n" + strDescription + "\n" + strDueDate + "\n" + strPriority
-
+from task import Task
+import datetime
+from datetime import date
 
 def main():
-    myTask = Task("HW", "NA", "11/20/2020", "High")
-    print(myTask)
+    #userLogin()
+    task = createTask()
 
+def userLogin():
+    print("-------------LOGIN/REGISTER-------------")
+    # user options
+    print("1. Login")
+    print("2. Register")
+    userOption = int(input("Enter: "))
+
+    if userOption == 1:
+        pass
+
+def createTask():
+    print("------------CREATE YOUR TASK------------")
+    wrongInput = False
+    taskTitle = input("Enter Title: ")
+    taskDescription = input("Enter Description: ")
+    taskCreatedDate = date.today().strftime("%m/%d/%Y")
+    while True:
+        try:
+            taskDueDate = input("Enter Due Date in MM/DD/YYYY: ")
+            month, day, year = map(int, taskDueDate.split('/'))
+            taskDueDate = datetime.date(year, month, day).strftime("%m/%d/%Y")
+            break
+        except ValueError:
+            print("Your input for Data is incorrect. Please enter a valid Date.\n")
+            wrongInput = True
+            continue
+
+    while True:  
+        taskPriority = input("Enter Priority (High, Medium, or Low): ").lower().strip()
+        if taskPriority not in ["high", "medium", "low"]:
+            print("Your input for Priority is incorrect. Please enter a valid response.\n")
+            wrongInput = True
+            continue
+        break
+
+    userTask = Task(taskTitle, taskDescription, taskCreatedDate, taskDueDate, taskPriority)
+    if wrongInput:
+        print(f"\nYour final task input:\n{userTask}")
+    print("Task has been succefully created.")
+    print("-----------------------------------------")
+    return userTask
 
 if __name__ == "__main__":
     main()

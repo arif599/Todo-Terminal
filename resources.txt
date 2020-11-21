@@ -6,3 +6,6 @@ https://www.youtube.com/watch?v=f7oYCzKuv-w&t=662s
 
 create a error checkcing class:
 https://stackoverflow.com/questions/21348748/python-can-i-use-a-decorator-inside-the-function
+
+Error checking user input:
+https://stackoverflow.com/questions/23294658/asking-the-user-for-input-until-they-give-a-valid-response

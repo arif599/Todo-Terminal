@@ -1,0 +1,8 @@
+Dates:
+https://www.programiz.com/python-programming/datetime/current-datetime
+
+SQL Database:
+https://www.youtube.com/watch?v=f7oYCzKuv-w&t=662s
+
+create a error checkcing class:
+https://stackoverflow.com/questions/21348748/python-can-i-use-a-decorator-inside-the-function

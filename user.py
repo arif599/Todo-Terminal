@@ -43,9 +43,24 @@ class User:
 
         return strFirstName +"\n"+ strLastName +"\n"+ strEmail +"\n" + strPassword
 
-    def save(self, db, mycursor):
-        insertQuery = "INSERT INTO users(first_name, last_name, email, password) VALUES (%s, %s, %s, %s)" 
-        mycursor.execute(insertQuery, (self.get_first_name(), self.get_last_name(), self.get_email(), self.get_password()))
-        db.commit()
+    # def save(self, db, mycursor):
+    #     insertQuery = "INSERT INTO users(first_name, last_name, email, password) VALUES (%s, %s, %s, %s)" 
+    #     mycursor.execute(insertQuery, (self.get_first_name(), self.get_last_name(), self.get_email(), self.get_password()))
+    #     db.commit()
+    
+    # def authenticate(self, mycursor, userEmail, userPassword):
+    #     findQuery = "SELECT id FROM users WHERE email=%s, password=%s"
+    #     mycursor.execute(findQuery, (userEmail, userPassword))
+
+    #     for x in mycursor:
+    #         if x == "NULL":
+    #             print(x)
+    #             return False
+    #         else:
+    #             # store ID in a variable
+    #             print(x)
+    #             return True
+
+
 
     

@@ -1,14 +1,18 @@
 # Blueprint for User objects
 class User:
     # constructor
-    def __init__(self, firstName, lastName, email, password):
+    def __init__(self, id, firstName, lastName, email, password):
         # private variables
+        self.set_id(id)
         self.set_first_name(firstName)
         self.set_last_name(lastName)
         self.set_email(email)
         self.set_password(password)
 
     # getters
+    def get_id(self):
+        return self._id
+
     def get_first_name(self):
         return self._firstName
 
@@ -22,6 +26,9 @@ class User:
         return self._password
 
     # setters
+    def set_id(self, id):
+        self._id = id
+
     def set_first_name(self, firstName):
         self._firstName = firstName.strip().capitalize()
     
@@ -36,12 +43,13 @@ class User:
 
     #methods
     def __str__(self):
+        strId = f"User ID: {self.get_id()}"
         strFirstName = f"First Name: {self.get_first_name()}"
         strLastName = f"Last Name: {self.get_last_name()}"
         strEmail = f"Email: {self.get_email()}"
         strPassword = f"Password: {self.get_password()}"
 
-        return strFirstName +"\n"+ strLastName +"\n"+ strEmail +"\n" + strPassword
+        return strId+"\n"+strFirstName +"\n"+ strLastName +"\n"+ strEmail +"\n" + strPassword
 
     # def save(self, db, mycursor):
     #     insertQuery = "INSERT INTO users(first_name, last_name, email, password) VALUES (%s, %s, %s, %s)" 

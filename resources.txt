@@ -9,3 +9,7 @@ https://stackoverflow.com/questions/21348748/python-can-i-use-a-decorator-inside
 
 Error checking user input:
 https://stackoverflow.com/questions/23294658/asking-the-user-for-input-until-they-give-a-valid-response
+
+Using fetch to get row/rows of data from MySql:
+https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
+

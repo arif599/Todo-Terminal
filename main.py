@@ -19,11 +19,11 @@ def main():
     #userLogin()
     #createTask(userID)
     #task = createTask()
-    authenticate_user()
+    prompt_user()
     #tasks_main()
 
 
-def authenticate_user():
+def prompt_user():
     print("-------------LOGIN/REGISTER-------------")
 
     while True:
@@ -48,20 +48,50 @@ def authenticate_user():
             continue
 
 def login():
-    pass
+    print("----------------LOGIN----------------")
+    while True:
+        userEmail = input("Enter your email: ")
+        userPassword = input("Enter your password: ")
+
+        #if user exits then populate user object
+        findQuery = "SELECT IFNULL((SELECT id FROM users WHERE email=%s AND password=%s) , false)"
+        mycursor.execute(findQuery, (userEmail, userPassword))
+        
+        
+        for x in mycursor:
+            userID = x
+            break
+
+        if userID[0]==0:
+            print("Your username or password is wrong. Try again.\n")
+            continue
+            #return False
+            #continue
+        else:
+            # store ID in a variable
+            print(userID[0])
+            break
+            #send userId to populate user obj
+            #return True
+        
+    #return obj or pass to function that creates one
 
 def createUser():
     print("----------------REGISTER----------------")
     userFirstName = input("Enter your first name: ")
     userLastName = input("Enter your last name: ")
     # check to see it user entered a valid email
-    userEmail = input("Enter your email: ")
+    userEmail = input("Enter a email: ")
     # check if strong password and maybe encrypt it
     userPassword = input("Enter a password: ")
 
+    insertQuery = "INSERT INTO users(first_name, last_name, email, password) VALUES (%s, %s, %s, %s)" 
+    mycursor.execute(insertQuery, (userFirstName, userLastName, userEmail, userPassword))
+    db.commit()
+
     newUser = User(userFirstName, userLastName, userEmail, userPassword)
-    newUser.save(db, mycursor)
     print("You have been succefully registered!")
+    #return newUSer
 
 
 

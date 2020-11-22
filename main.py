@@ -19,8 +19,15 @@ def main():
     #userLogin()
     #createTask(userID)
     #task = createTask()
-    prompt_user()
+    clientId = prompt_user()
+    client = load_user(clientId)
+    print(client)
+    #prompt_user_task(client)
+    
     #tasks_main()
+def prompt_user_task(user):
+    print("-------------LOGIN/REGISTER-------------")
+
 
 
 def prompt_user():
@@ -37,20 +44,21 @@ def prompt_user():
             continue
 
         if userOption == 1:
-            login()
+            userID = login()
             break
         elif userOption == 2:
             createUser()
-            login()
+            userID = login()
             break
         else:
             print("You entered a number that is not in the given options. Try selecting either 1 or 2.")
             continue
+    return userID
 
 def login():
     print("----------------LOGIN----------------")
     while True:
-        userEmail = input("Enter your email: ")
+        userEmail = input("Enter your email: ").strip()
         userPassword = input("Enter your password: ")
 
         #if user exits then populate user object
@@ -69,19 +77,28 @@ def login():
             #continue
         else:
             # store ID in a variable
-            print(userID[0])
-            break
+            return userID[0]
+            # print(userID[0])
+            # break
             #send userId to populate user obj
             #return True
         
     #return obj or pass to function that creates one
 
+
+def load_user(userId):
+    loadQuery = f"SELECT * FROM users WHERE id={userId}"
+    mycursor.execute(loadQuery)
+    row = mycursor.fetchone()
+    return User(row[0], row[1], row[2], row[3], row[4]) 
+
+
 def createUser():
     print("----------------REGISTER----------------")
-    userFirstName = input("Enter your first name: ")
-    userLastName = input("Enter your last name: ")
+    userFirstName = input("Enter your first name: ").strip().capitalize()
+    userLastName = input("Enter your last name: ").strip().capitalize()
     # check to see it user entered a valid email
-    userEmail = input("Enter a email: ")
+    userEmail = input("Enter a email: ").strip()
     # check if strong password and maybe encrypt it
     userPassword = input("Enter a password: ")
 
@@ -89,8 +106,8 @@ def createUser():
     mycursor.execute(insertQuery, (userFirstName, userLastName, userEmail, userPassword))
     db.commit()
 
-    newUser = User(userFirstName, userLastName, userEmail, userPassword)
-    print("You have been succefully registered!")
+    #newUser = User(userFirstName, userLastName, userEmail, userPassword)
+    print("You have been succefully registered!\n")
     #return newUSer
 
 

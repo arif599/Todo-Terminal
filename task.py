@@ -28,9 +28,6 @@ class Task:
 
     # setters
     def set_title(self, title):
-        # if not isinstance(title, str):
-        #     print("Throwing NotTitle")
-        #     raise NotTitle
         self._title = title
 
     def set_description(self, description):

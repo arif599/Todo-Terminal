@@ -1,2 +1,2 @@
 # Todo-Terminal
-Terminal based Todo application in Python
+Simple terminal based Todo application in Python that uses MySql for backend.

@@ -7,6 +7,6 @@ Simple terminal based Todo application in Python that uses MySql as a databse to
 
 ### 💡 Feature Improvements
 * Making a website version of this using Flask
-  - Branch: master-flask
+  - Branch: [master-flask](https://github.com/arif599/Todo-Terminal/tree/master-flask)
 
 Note: Contributions to this project is always welcomed, please follow the guidelines given in [CONTRIBUTING.md](https://github.com/arif599/Todo-Terminal/blob/master/CONTRIBUTING.md)

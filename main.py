@@ -171,6 +171,8 @@ def createTask(user):
     insertTaskQuery = "INSERT INTO tasks(user_id, title, description, created_date, due_date, priority) VALUES(%s, %s, %s, %s, %s, %s)"
     mycursor.execute(insertTaskQuery, (user.get_id(), taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority))
     db.commit()
+    user.get_obj_task().set_task_id(mycursor.lastrowid)
+    #print(user.get_obj_task())
     print("-----------------------------------------")
 
 if __name__ == "__main__":

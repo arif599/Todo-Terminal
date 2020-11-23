@@ -13,3 +13,5 @@ https://stackoverflow.com/questions/23294658/asking-the-user-for-input-until-the
 Using fetch to get row/rows of data from MySql:
 https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
 
+Turning python script to run on a website:
+https://blog.pythonanywhere.com/169/

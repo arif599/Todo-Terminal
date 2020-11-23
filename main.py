@@ -1,4 +1,3 @@
-from task import Task
 import datetime
 from datetime import date
 import mysql.connector
@@ -21,14 +20,38 @@ def main():
     #task = createTask()
     clientId = prompt_user()
     client = load_user(clientId)
-    print(client)
-    #prompt_user_task(client)
+    # print("-------LOADED USER---------")
+    # print(client)
+    # print("---------------------------")
+    prompt_user_options(client)
+    #print(client)
+    #prompt_user_option(client)
     
     #tasks_main()
-def prompt_user_task(user):
-    print("-------------LOGIN/REGISTER-------------")
+def prompt_user_options(user):
+    print("----------------WELCOME----------------")
+    print("Select an option")
+    print("1. Create a new task")
+    print("2. View all tasks")
+    print("3. View current tasks")
+    print("4. View completed tasks")
+        # print(" View all taks")
+        # print("Select a task to edit")
+    print("3. sign out")
+    userInput = int(input("Enter: "))
+
+    if userInput == 1:
+        #clientTask = createTask(user)
+        createTask(user)
+        print(user)
+    elif userInput == 2:
+        prompt_tasks_view(user, "completed")
+        pass
 
 
+
+def prompt_tasks_view(user, viewStatus):
+    pass
 
 def prompt_user():
     print("-------------LOGIN/REGISTER-------------")
@@ -42,7 +65,8 @@ def prompt_user():
         except ValueError:
             print("Your input for Options is wrong. Please enter a valid number.")
             continue
-
+        
+        # try putting just return instaed of userID return login()
         if userOption == 1:
             userID = login()
             break
@@ -102,8 +126,8 @@ def createUser():
     # check if strong password and maybe encrypt it
     userPassword = input("Enter a password: ")
 
-    insertQuery = "INSERT INTO users(first_name, last_name, email, password) VALUES (%s, %s, %s, %s)" 
-    mycursor.execute(insertQuery, (userFirstName, userLastName, userEmail, userPassword))
+    insertUserQuery = "INSERT INTO users(first_name, last_name, email, password) VALUES (%s, %s, %s, %s)" 
+    mycursor.execute(insertUserQuery, (userFirstName, userLastName, userEmail, userPassword))
     db.commit()
 
     #newUser = User(userFirstName, userLastName, userEmail, userPassword)
@@ -112,7 +136,7 @@ def createUser():
 
 
 
-def createTask():
+def createTask(user):
     print("------------CREATE YOUR TASK------------")
     wrongInput = False
     taskTitle = input("Enter Title: ")
@@ -137,12 +161,17 @@ def createTask():
             continue
         break
 
-    userTask = Task(taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority)
+    #userTask = Task(taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority)
+    user.set_obj_task(taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority)
+
     if wrongInput:
-        print(f"\nYour final task input:\n{userTask}")
+        print(f"\nYour final task input:\n{user.task()}")
     print("Task has been succefully created.")
+
+    insertTaskQuery = "INSERT INTO tasks(user_id, title, description, created_date, due_date, priority) VALUES(%s, %s, %s, %s, %s, %s)"
+    mycursor.execute(insertTaskQuery, (user.get_id(), taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority))
+    db.commit()
     print("-----------------------------------------")
-    return userTask
 
 if __name__ == "__main__":
     main()

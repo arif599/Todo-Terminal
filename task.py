@@ -1,7 +1,7 @@
 # Blueprint for Task objects
 class Task:
     # constructor
-    def __init__(self, title, description, dueDate, createdDate, priority, completed):
+    def __init__(self, title, description, dueDate, createdDate, priority, completed=0):
         # private variables
         self.set_title(title)
         self.set_description(description)

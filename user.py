@@ -1,29 +1,16 @@
+from task import Task
 # Blueprint for User objects
 class User:
     # constructor
-    def __init__(self, id, firstName, lastName, email, password):
+    def __init__(self, id, firstName, lastName, email, password, title='', description='', dueDate='', createdDate='', priority='', completed=0):
         # private variables
         self.set_id(id)
         self.set_first_name(firstName)
         self.set_last_name(lastName)
         self.set_email(email)
         self.set_password(password)
+        self.set_obj_task(title, description, dueDate, createdDate, priority, completed)
 
-    # getters
-    def get_id(self):
-        return self._id
-
-    def get_first_name(self):
-        return self._firstName
-
-    def get_last_name(self):
-        return self._lastName
-
-    def get_email(self):
-        return self._email
-
-    def get_password(self):
-        return self._password
 
     # setters
     def set_id(self, id):
@@ -41,6 +28,28 @@ class User:
     def set_password(self, password):
         self._password = password
 
+    def set_obj_task(self, title, description, dueDate, createdDate, priority, completed=0):
+        self._obj_task = Task(title, description, dueDate, createdDate, priority, completed)
+
+    # getters
+    def get_id(self):
+        return self._id
+
+    def get_first_name(self):
+        return self._firstName
+
+    def get_last_name(self):
+        return self._lastName
+
+    def get_email(self):
+        return self._email
+
+    def get_password(self):
+        return self._password
+
+    def get_obj_task(self):
+        return self._obj_task
+
     #methods
     def __str__(self):
         strId = f"User ID: {self.get_id()}"
@@ -48,8 +57,9 @@ class User:
         strLastName = f"Last Name: {self.get_last_name()}"
         strEmail = f"Email: {self.get_email()}"
         strPassword = f"Password: {self.get_password()}"
+        strTask = f"{self.get_obj_task()}"
 
-        return strId+"\n"+strFirstName +"\n"+ strLastName +"\n"+ strEmail +"\n" + strPassword
+        return strId+"\n"+strFirstName +"\n"+ strLastName +"\n"+ strEmail +"\n" + strPassword +"\n" + strTask
 
     # def save(self, db, mycursor):
     #     insertQuery = "INSERT INTO users(first_name, last_name, email, password) VALUES (%s, %s, %s, %s)" 

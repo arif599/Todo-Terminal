@@ -2,14 +2,14 @@ from task import Task
 # Blueprint for User objects
 class User:
     # constructor
-    def __init__(self, id, firstName, lastName, email, password, title='', description='', dueDate='', createdDate='', priority='', completed=0):
+    def __init__(self, id, firstName, lastName, email, password, title='', description='', dueDate='', createdDate='', priority='', taskId=0, completed=0):
         # private variables
         self.set_id(id)
         self.set_first_name(firstName)
         self.set_last_name(lastName)
         self.set_email(email)
         self.set_password(password)
-        self.set_obj_task(title, description, dueDate, createdDate, priority, completed)
+        self.set_obj_task(title, description, dueDate, createdDate, priority, taskId, completed)
 
 
     # setters
@@ -28,8 +28,8 @@ class User:
     def set_password(self, password):
         self._password = password
 
-    def set_obj_task(self, title, description, dueDate, createdDate, priority, completed=0):
-        self._obj_task = Task(title, description, dueDate, createdDate, priority, completed)
+    def set_obj_task(self, title, description, dueDate, createdDate, priority, taskId=0, completed=0):
+        self._obj_task = Task(title, description, dueDate, createdDate, priority, taskId, completed)
 
     # getters
     def get_id(self):

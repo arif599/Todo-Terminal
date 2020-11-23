@@ -1,8 +1,9 @@
 # Blueprint for Task objects
 class Task:
     # constructor
-    def __init__(self, title, description, dueDate, createdDate, priority, completed=0):
+    def __init__(self, title, description, dueDate, createdDate, priority, taskId=0, completed=0):
         # private variables
+        self.set_task_id(taskId)
         self.set_title(title)
         self.set_description(description)
         self.set_dueDate(dueDate)
@@ -10,7 +11,32 @@ class Task:
         self.set_priority(priority)
         self.set_completed(completed)
 
+    # setters
+    def set_task_id(self, taskId):
+        self._taskId = taskId
+
+    def set_title(self, title):
+        self._title = title
+
+    def set_description(self, description):
+        self._description = description
+
+    def set_dueDate(self, dueDate):
+        self._dueDate = dueDate
+
+    def set_createdDate(self, createdDate):
+        self._createdDate = createdDate
+
+    def set_priority(self, priority):
+        self._priority = priority
+
+    def set_completed(self, completed):
+        self._completed = completed
+
     # getters
+    def get_task_id(self):
+        return self._taskId
+
     def get_title(self):
         return self._title
 
@@ -30,29 +56,12 @@ class Task:
         return self._completed
 
 
-    # setters
-    def set_title(self, title):
-        self._title = title
-
-    def set_description(self, description):
-        self._description = description
-
-    def set_dueDate(self, dueDate):
-        self._dueDate = dueDate
-
-    def set_createdDate(self, createdDate):
-        self._createdDate = createdDate
-
-    def set_priority(self, priority):
-        self._priority = priority
-
-    def set_completed(self, completed):
-        self._completed = completed
 
 
 
     # methods
     def __str__(self):
+        strTaskId = f"Task ID: {self.get_task_id()}"
         strTask = f"Task: {self.get_title()}"
         strDescription = f"Description: {self.get_description()}"
         strCreatedDate = f"Created Date: {self.get_createdDate()}"
@@ -63,4 +72,4 @@ class Task:
         else:
             strCompleted = f"This task is NOT COMPLETED"
 
-        return strTask + "\n" + strDescription + "\n" + strCreatedDate + "\n" + strDueDate + "\n" + strPriority +"\n"+ strCompleted
+        return strTaskId +"\n"+ strTask + "\n" + strDescription + "\n" + strCreatedDate + "\n" + strDueDate + "\n" + strPriority +"\n"+ strCompleted

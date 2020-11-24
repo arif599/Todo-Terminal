@@ -3,6 +3,7 @@ from datetime import date
 import mysql.connector
 import config
 from user import User
+from task import Task
 
 db = mysql.connector.connect(
     host=config.host,
@@ -29,29 +30,93 @@ def main():
     
     #tasks_main()
 def prompt_user_options(user):
-    print("----------------WELCOME----------------")
-    print("Select an option")
-    print("1. Create a new task")
-    print("2. View all tasks")
-    print("3. View current tasks")
-    print("4. View completed tasks")
-        # print(" View all taks")
-        # print("Select a task to edit")
-    print("3. sign out")
-    userInput = int(input("Enter: "))
+    print(f"----------------WELCOME {user.get_first_name().upper()}----------------")
+    viewTasks = False
+    taskMap = {}
 
-    if userInput == 1:
-        #clientTask = createTask(user)
-        createTask(user)
-        print(user)
-    elif userInput == 2:
-        prompt_tasks_view(user, "completed")
-        pass
+    while True:
+        if not viewTasks:
+            print("Select an option")
+            print("0. Logout/quit")
+            print("1. Create a new task")
+            print("2. View all tasks")
+            print("3. View current tasks")
+            print("4. View completed tasks")
+            userInput = int(input("Enter: "))
+        else:
+            print("Select an option")
+            print("1. Create a new task")
+            print("2. View all tasks")
+            print("3. View current tasks")
+            print("4. View completed tasks")
+            print("5. Edit a task")
+            print("6. Delete a task")
+            print("7. Mark a task complete")
+            userInput = int(input("Enter: "))
 
+
+        if userInput == 1:
+            #clientTask = createTask(user)
+            print("------------CREATE YOUR TASK------------")
+            createTask(user)
+            #print(user)
+        elif userInput == 2:
+            taskMap = prompt_tasks_view(user, "all")
+            viewTasks = True
+        elif userInput == 5 and viewTasks == True:
+            editTask = int(input("Select a task to edit: "))
+            loadedTask = load_task(taskMap[editTask])
+            print("1) edit all")
+            print("2) edit title")
+            print("3) edit description")
+            print("4) edit created date")
+            print("5) edit due date")
+            print("6) edit priority")
+            print("7) edit completed status:")
+            editOption = int(input("Enter: "))
+            task_update(user, editOption, loadedTask)
+            print("------------EDIR YOUR TASK------------")
+
+def load_task(taskId):
+    loadQuery = f"SELECT * FROM tasks WHERE task_id={taskId}"
+    mycursor.execute(loadQuery)
+    taskRow = mycursor.fetchone()
+    return Task(taskRow[2], taskRow[3], taskRow[5], taskRow[4], taskRow[6], taskRow[0], taskRow[7]) 
+    
+def task_update(user, userOption, loadedTask):
+    taskId = loadedTask.get_task_id()
+    if userOption == 1:
+        createTask(user, taskId)
+        updateTaskQuery = f"UPDATE tasks SET title=%s, description=%s, created_date=%s, due_date=%s, priority=%s, completed=%s WHERE task_id = {taskId}"
+        mycursor.execute(updateTaskQuery, (user.get_obj_task().get_title(), user.get_obj_task().get_description(), user.get_obj_task().get_created_date(), user.get_obj_task().get_due_date(), user.get_obj_task().get_priority(), user.get_obj_task().get_completed()))
+        db.commit()
+        print("Task have been updated")
 
 
 def prompt_tasks_view(user, viewStatus):
-    pass
+    taskMap = {}
+
+    if viewStatus == "all":
+        viewAllQuery = "SELECT * FROM tasks WHERE user_id=%s"
+        mycursor.execute(viewAllQuery, (user.get_id(),))
+        for i, task in enumerate(mycursor, 1):
+            user.set_obj_task(task[2], task[3], task[5], task[4], task[6], task[7])
+            taskMap[i] = task[0]
+            print(f"{i}){user.get_obj_task()}\n")
+
+    #prompt_tasks_edit(user, taskMap)
+    print(taskMap)
+    return taskMap
+
+# def prompt_tasks_edit(user, taskMap):
+#     print("1) Edit a task")
+#     print("2) Return home")
+#     userInput = input("1) Edit a task")
+
+#     if userInput == 1:
+#         print()
+
+
 
 def prompt_user():
     print("-------------LOGIN/REGISTER-------------")
@@ -136,8 +201,7 @@ def createUser():
 
 
 
-def createTask(user):
-    print("------------CREATE YOUR TASK------------")
+def createTask(user, editTaskId=None):
     wrongInput = False
     taskTitle = input("Enter Title: ")
     taskDescription = input("Enter Description: ")
@@ -163,6 +227,20 @@ def createTask(user):
 
     #userTask = Task(taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority)
     user.set_obj_task(taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority)
+
+    if editTaskId is not None:
+        while True:  
+            taskCompletionStatus = input("Enter completion status (Done, Not Done): ").lower().strip()
+            if taskCompletionStatus == "done":
+                taskCompletionStatus = 1
+            elif taskCompletionStatus == "not done":
+                taskCompletionStatus = 0
+            else:
+                print("Your input for Completed status is incorrect. Please enter a valid response.\n")
+                continue
+            break
+        user.set_obj_task(taskTitle, taskDescription, taskDueDate, taskCreatedDate, taskPriority, editTaskId, taskCompletionStatus)
+        return
 
     if wrongInput:
         print(f"\nYour final task input:\n{user.task()}")

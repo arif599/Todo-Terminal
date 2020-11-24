@@ -1,13 +1,13 @@
 # Blueprint for Task objects
 class Task:
     # constructor
-    def __init__(self, title, description, dueDate, createdDate, priority, taskId=0, completed=0):
+    def __init__(self, title, description, due_date, created_date, priority, taskId=0, completed=0):
         # private variables
         self.set_task_id(taskId)
         self.set_title(title)
         self.set_description(description)
-        self.set_dueDate(dueDate)
-        self.set_createdDate(createdDate)
+        self.set_due_date(due_date)
+        self.set_created_date(created_date)
         self.set_priority(priority)
         self.set_completed(completed)
 
@@ -21,11 +21,11 @@ class Task:
     def set_description(self, description):
         self._description = description
 
-    def set_dueDate(self, dueDate):
-        self._dueDate = dueDate
+    def set_due_date(self, due_date):
+        self._due_date = due_date
 
-    def set_createdDate(self, createdDate):
-        self._createdDate = createdDate
+    def set_created_date(self, created_date):
+        self._created_date = created_date
 
     def set_priority(self, priority):
         self._priority = priority
@@ -43,11 +43,11 @@ class Task:
     def get_description(self):
         return self._description
 
-    def get_dueDate(self):
-        return self._dueDate
+    def get_due_date(self):
+        return self._due_date
 
-    def get_createdDate(self):
-        return self._createdDate
+    def get_created_date(self):
+        return self._created_date
 
     def get_priority(self):
         return self._priority
@@ -61,15 +61,16 @@ class Task:
 
     # methods
     def __str__(self):
-        strTaskId = f"Task ID: {self.get_task_id()}"
+        #strTaskId = f"Task ID: {self.get_task_id()}"
         strTask = f"Task: {self.get_title()}"
         strDescription = f"Description: {self.get_description()}"
-        strCreatedDate = f"Created Date: {self.get_createdDate()}"
-        strDueDate = f"Due Date: {self.get_dueDate()}"
+        strcreated_date = f"Created Date: {self.get_created_date()}"
+        strdue_date = f"Due Date: {self.get_due_date()}"
         strPriority = f"Priority Level: {self.get_priority()}"
         if self.get_completed() == 1:
             strCompleted = f"This task is COMPLETED"
         else:
             strCompleted = f"This task is NOT COMPLETED"
 
-        return strTaskId +"\n"+ strTask + "\n" + strDescription + "\n" + strCreatedDate + "\n" + strDueDate + "\n" + strPriority +"\n"+ strCompleted
+        #return strTaskId +"\n"+ strTask + "\n" + strDescription + "\n" + strcreated_date + "\n" + strdue_date + "\n" + strPriority +"\n"+ strCompleted
+        return strTask + "\n" + strDescription + "\n" + strcreated_date + "\n" + strdue_date + "\n" + strPriority +"\n"+ strCompleted
